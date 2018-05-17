@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: firewall
+  namespace: kube-system
+  labels:
+    vnf.type: firewall
+spec:
+  template:
+    metadata:
+      labels:
+        name: firewall
+    spec:
+      containers:
+      - name: firewall
+        image: gcr.io/gcp-eng-dev/vnf:0.0.1
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 256Mi
+        volumeMounts:
+        - name: varlog
+          mountPath: /var/log
+        - name: varlibdockercontainers
+          mountPath: /var/lib/docker/containers
+          readOnly: true
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: varlog
+        hostPath:
+          path: /var/log
+      - name: varlibdockercontainers
+        hostPath:
+          path: /var/lib/docker/containers
