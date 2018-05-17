@@ -1,18 +1,14 @@
-apiVersion: extensions/v1beta1
-kind: DaemonSet
+apiVersion: v1
+kind: Pod
 metadata:
   name: firewall
   namespace: kube-system
-  labels:
-    vnf.type: firewall
 spec:
   template:
     metadata:
-      labels:
-        name: firewall
     spec:
       containers:
-      - name: firewall
+      - name: cnf
         image: gcr.io/gcp-eng-dev/vnf:0.0.1
         imagePullPolicy: Always
         resources:
