@@ -1,9 +1,11 @@
-# Sample VNF
+# Cloud Networking Function
 
-This is a very simple virtusl network function (VNF) that is intended to be a test vehicle for Service Function Chaining.
-The VNF is a simple "bump in the wire" implementation. The interfaces are in promiscous mode and simple transmit all packets
-received with no changes.
+This is a very simple cloud network function (CNF) that is intended to be a test vehicle for Service Function Chaining and other mechanism for inserting a
+CNF into the cloud.
 
+The VCNF is a simple "bump in the wire" implementation. The interfaces are in promiscous mode and simple transmit all packets receivedin one interface
+and out the other with no changes. Users can customize the code to insert control code the packet path.
+ 
 The implementation uses packet mmap to maximize performance but the code ha not been optimized.
 
 It can work in either of two modes:
@@ -17,11 +19,11 @@ The implementation has been tested on the following platforms:
 *Platforms:*
 Centos 7.3
 
-THe VNF can be deployed on Bare metal, in a VM or in a Docker container.
+THe CNF can be deployed on Bare metal, in a VM or in a Docker container.
 
 # Building
 
-To create the VNF clone the repository and
+To create the CNF clone the repository and
 
 <pre><code>
 $ make
@@ -53,7 +55,7 @@ There are options for tuning the mmap packet buffers. I suggest before  changing
 
 # Troubleshooting
 
-There is debug built into the code - compile withj -DDEBUG and that should help.
+There is debug built into the code - compile with -DDEBUG and that should help.
 
 # Containers
 This VNF has been published to docker as a container, to get the container search the docker hub.
@@ -113,7 +115,7 @@ spec:
 If the file is saved as firewall_vnf.yaml it is run on the master by:
 
 <pre><code>
-kubectl create -f firewall_vnf.yaml
+kubectl create -f cnf.yaml
 </code></pre>
 Now any node that is created with the tag vnfType: firewall will have a DP container launched and attached to the logical switch via a logical port. The configuration required when starting a new node is shown below:
 
