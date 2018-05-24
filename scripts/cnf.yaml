@@ -9,7 +9,7 @@ spec:
     spec:
       containers:
       - name: cnf
-        image: gcr.io/gcp-eng-dev/vnf:0.0.1
+        image: gcr.io/<your account>/vnf:0.0.1
         imagePullPolicy: Always
         resources:
           limits:

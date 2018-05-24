@@ -1,6 +1,6 @@
 ##
 #
-# NFV BITW Makefile
+# Cloud Network Function BITW Makefile
 #
 ##
 
@@ -61,12 +61,7 @@ OBJS = \
     $(OBJ_DIR)/vnfutil.o \
    	$(OBJ_DIR)/vnfrw.o
 
-
-
 all: vnf
-
-addshm.o: addshm.c
-	$(CC) $(CFLAGS) $< -o $(OBJ_DIR)/$@
 
 vnferror.o: vnferror.c vnferror.h
 	$(CC) $(CFLAGS) $< -o $(OBJ_DIR)/$@
@@ -86,23 +81,8 @@ vnfrw.o: vnfrw.c vnfapp.h vnferror.h
 vnf: vnferror.o vnftest.o vnfutil.o vnfapp.o vnfrw.o
 	$(LD)  $(OBJS) $(LDFLAGS) -o $(BIN_DIR)/$@
 
-ctnr:
-	cp ./bin/vnf ./scripts ; cp ./bin/addshm ./scripts ; sudo docker build -t docker-panos-ctnr.af.paloaltonetworks.local/centos:vnf scripts
 
-gcr:
-	cp ./bin/vnf ./scripts ; cp ./bin/addshm ./scripts ; cp ./src/*.c ./scripts/src ; cp ./include/*.h ./scripts/include ;sudo docker build -t gcr.io/gcp-eng-dev/vnf:0.0.3 scripts ; gcloud docker -- push gcr.io/gcp-eng-dev/vnf:0.0.3
-
-gcrenvoy:
-	cp ./bin/vnf ./scripts ; cp ./bin/addshm ./scripts ; cp ./src/*.c ./scripts/src ; cp ./include/*.h ./scripts/include ;sudo docker build -t gcr.io/gcp-eng-dev/envoy:0.0.1 scripts ; gcloud docker -- push gcr.io/gcp-eng-dev/envoy:0.0.1
-
-
-gcrvnf:
-	cp ./bin/vnf ./scripts ; cp ./bin/addshm ./scripts ; cp ./src/*.c ./scripts/src ; cp ./include/*.h ./scripts/include ;sudo docker build -t gcr.io/gcp-eng-dev/vnftest:0.0.1 scripts ; gcloud docker -- push gcr.io/gcp-eng-dev/vnftest:0.0.1
-
-addshm: addshm.o
-	$(LD)  $(OBJ_DIR)/addshm.o $(LDFLAGS) -o $(BIN_DIR)/$@
-
-.PHONY: clean,ctnr
+.PHONY: clean
 
 clean:
 	rm -f obj/*.o \
